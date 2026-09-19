@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Seed Industry Carbon Reduction Calculator</title>
+<style>
+:root{--green:#0b5b45;--green2:#1f7a5a;--ink:#17332b;--muted:#64756e;--line:#d9e4df;--bg:#f4f8f6;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,Arial,sans-serif;color:var(--ink)}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 18px 44px}
+header{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:22px}
+h1{font-family:Georgia,serif;font-size:38px;line-height:1.05;margin:0 0 8px;color:var(--green)}
+.sub{font-size:17px;color:var(--muted);max-width:760px;line-height:1.45}
+.badge{background:#e7f1ec;border:1px solid #c8ddd3;color:var(--green);padding:9px 12px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.grid{display:grid;grid-template-columns:1fr 1.12fr;gap:18px}
+.card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:20px}
+.card h2{font-size:18px;margin:0 0 16px;color:var(--green)}
+.field{margin:0 0 18px}.labelrow{display:flex;justify-content:space-between;gap:10px;align-items:center}
+label{font-weight:700;font-size:14px}.value{font-weight:800;color:var(--green)}
+input[type=range]{width:100%;accent-color:var(--green2);margin:10px 0}
+input[type=number]{width:110px;padding:8px 9px;border:1px solid #cbd9d3;border-radius:8px;font-size:15px}
+.small{font-size:12px;color:var(--muted);line-height:1.4}
+.result{background:var(--green);color:white;border-radius:16px;padding:22px;margin-bottom:16px}
+.result .eyebrow{font-size:13px;opacity:.85;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.result .num{font-family:Georgia,serif;font-size:46px;font-weight:700;line-height:1.05;margin:7px 0}
+.result .unit{font-size:16px;opacity:.9}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.kpi{border:1px solid var(--line);border-radius:12px;padding:13px;background:#fbfdfc}.kpi b{display:block;font-size:20px}.kpi span{font-size:11px;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px 7px;border-bottom:1px solid var(--line);text-align:right}th:first-child,td:first-child{text-align:left}th{color:var(--muted);font-size:11px;text-transform:uppercase}
+.note{background:#fff8e8;border:1px solid #ead9ad;border-radius:12px;padding:13px;margin-top:16px;font-size:12px;line-height:1.45;color:#66542b}
+.footer{margin-top:18px;font-size:12px;color:var(--muted);line-height:1.5}
+@media(max-width:780px){header{display:block}.badge{display:inline-block;margin-top:12px}.grid{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}.result .num{font-size:38px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<div>
+<h1>Carbon Reduction Potential Calculator</h1>
+<div class="sub">India's seed industry — from production data to climate impact. Adjust the assumptions to explore an <b>illustrative</b> emissions-reduction scenario for seed production.</div>
+</div>
+<div class="badge">ILLUSTRATIVE — NOT A VERIFIED INDUSTRY ESTIMATE</div>
+</header>
+
+<div class="grid">
+<section class="card">
+<h2>1. Scenario inputs</h2>
+
+<div class="field">
+<div class="labelrow"><label for="acreage">Total seed-production acreage</label><span class="value" id="acreageVal"></span></div>
+<input id="acreage" type="range" min="100000" max="2000000" step="10000" value="1200000">
+<div class="small">Hectares under the scenario.</div>
+</div>
+
+<div class="field">
+<div class="labelrow"><label>Paddy / Rice share</label><span class="value" id="riceVal"></span></div>
+<input id="rice" type="range" min="0" max="100" step="1" value="30">
+</div>
+<div class="field">
+<div class="labelrow"><label>Maize share</label><span class="value" id="maizeVal"></span></div>
+<input id="maize" type="range" min="0" max="100" step="1" value="20">
+</div>
+<div class="field">
+<div class="labelrow"><label>Cotton share</label><span class="value" id="cottonVal"></span></div>
+<input id="cotton" type="range" min="0" max="100" step="1" value="15">
+</div>
+<div class="field">
+<div class="labelrow"><label>Vegetables share</label><span class="value" id="vegVal"></span></div>
+<input id="veg" type="range" min="0" max="100" step="1" value="15">
+</div>
+<div class="field">
+<div class="labelrow"><label>Other crops share</label><span class="value" id="otherVal"></span></div>
+<input id="other" type="range" min="0" max="100" step="1" value="20">
+</div>
+<div class="small" id="mixWarning"></div>
+
+<h2 style="margin-top:24px">2. Illustrative reduction potential</h2>
+<div class="small" style="margin-bottom:10px">Estimated reduction per hectare if the relevant improved practices are fully adopted in each crop category.</div>
+
+<div class="field"><div class="labelrow"><label>Paddy / Rice</label><span class="value"><input id="rRice" type="number" min="0" max="10" step=".1" value="2.5"> tCO₂e/ha</span></div></div>
+<div class="field"><div class="labelrow"><label>Maize</label><span class="value"><input id="rMaize" type="number" min="0" max="10" step=".1" value="1.8"> tCO₂e/ha</span></div></div>
+<div class="field"><div class="labelrow"><label>Cotton</label><span class="value"><input id="rCotton" type="number" min="0" max="10" step=".1" value="1.5"> tCO₂e/ha</span></div></div>
+<div class="field"><div class="labelrow"><label>Vegetables</label><span class="value"><input id="rVeg" type="number" min="0" max="10" step=".1" value="1.5"> tCO₂e/ha</span></div></div>
+<div class="field"><div class="labelrow"><label>Other crops</label><span class="value"><input id="rOther" type="number" min="0" max="10" step=".1" value="1.2"> tCO₂e/ha</span></div></div>
+
+<div class="field">
+<div class="labelrow"><label for="adoption">Adoption rate</label><span class="value" id="adoptionVal"></span></div>
+<input id="adoption" type="range" min="0" max="100" step="1" value="100">
+<div class="small">Share of the scenario acreage implementing the assumed reduction practices.</div>
+</div>
+</section>
+
+<section>
+<div class="result">
+<div class="eyebrow">Estimated annual CO₂e reduction potential</div>
+<div class="num" id="total">0</div>
+<div class="unit">tonnes CO₂e per year</div>
+</div>
+
+<div class="kpis">
+<div class="kpi"><b id="acreageOut">0</b><span>scenario hectares</span></div>
+<div class="kpi"><b id="avgOut">0.00</b><span>tCO₂e/ha weighted reduction</span></div>
+<div class="kpi"><b id="adoptOut">0%</b><span>adoption rate</span></div>
+</div>
+
+<div class="card">
+<h2>Results by crop category</h2>
+<table>
+<thead><tr><th>Crop category</th><th>Acreage (ha)</th><th>Reduction<br>tCO₂e/yr</th><th>Share</th></tr></thead>
+<tbody id="rows"></tbody>
+</table>
+</div>
+
+<div class="note"><b>Important:</b> The displayed result is a scenario calculation, not a measured, verified or official estimate for India's seed industry. Replace the illustrative inputs with documented crop-specific acreage, activity data, baselines, applicable emission factors and an accepted methodology before using the result for reporting or carbon-market purposes.</div>
+
+<div class="footer">
+<b>Calculation logic:</b> Crop acreage × illustrative reduction potential per hectare × adoption rate, summed across crop categories.
+<br><br>
+The calculator is designed to demonstrate the article's core proposition: <b>connect seed-production data first; quantify climate impact from evidence second.</b>
+</div>
+</section>
+</div>
+</div>
+
+<script>
+const ids=['acreage','rice','maize','cotton','veg','other','adoption','rRice','rMaize','rCotton','rVeg','rOther'];
+const $=id=>document.getElementById(id);
+const fmt=n=>Math.round(n).toLocaleString('en-IN');
+function val(id){return Math.max(0,Number($(id).value)||0)}
+function calc(){
+ const acreage=val('acreage');
+ const shares=[val('rice'),val('maize'),val('cotton'),val('veg'),val('other')];
+ const rates=[val('rRice'),val('rMaize'),val('rCotton'),val('rVeg'),val('rOther')];
+ const names=['Paddy / Rice','Maize','Cotton','Vegetables','Other crops'];
+ const keys=['rice','maize','cotton','veg','other'];
+ const totalShare=shares.reduce((a,b)=>a+b,0);
+ $('mixWarning').textContent= totalShare===100 ? 'Crop mix totals 100%.' : `Crop mix currently totals ${totalShare}%. The calculator will normalize the mix to 100%.`;
+ const norm=totalShare>0?shares.map(x=>x/totalShare):shares.map(()=>.2);
+ const adoption=val('adoption')/100;
+ let total=0, rows='';
+ for(let i=0;i<5;i++){
+   const ha=acreage*norm[i];
+   const red=ha*rates[i]*adoption;
+   total+=red;
+   rows+=`<tr><td>${names[i]}</td><td>${fmt(ha)}</td><td>${fmt(red)}</td><td>${total?((red/total)*100).toFixed(1):'0.0'}%</td></tr>`;
+ }
+ const weighted=norm.reduce((s,x,i)=>s+x*rates[i],0)*adoption;
+ $('acreageVal').textContent=fmt(acreage)+' ha';
+ $('riceVal').textContent=val('rice')+'%'; $('maizeVal').textContent=val('maize')+'%';
+ $('cottonVal').textContent=val('cotton')+'%'; $('vegVal').textContent=val('veg')+'%'; $('otherVal').textContent=val('other')+'%';
+ $('adoptionVal').textContent=Math.round(adoption*100)+'%';
+ $('total').textContent=fmt(total); $('acreageOut').textContent=fmt(acreage);
+ $('avgOut').textContent=weighted.toFixed(2); $('adoptOut').textContent=Math.round(adoption*100)+'%';
+ $('rows').innerHTML=rows;
+}
+ids.forEach(id=>$(id).addEventListener('input',calc));
+calc();
+</script>
+</body>
+</html>
