@@ -1,163 +1,582 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><meta property="og:title" content="Seed Industry Carbon Reduction Calculator">
-<meta property="og:description" content="Explore an illustrative scenario for carbon-reduction potential in India's seed-production ecosystem.">
-<meta property="og:url" content="https://rajavadlamani-png.github.io/seed-industry-carbon-calculator/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seed Production Carbon Potential Calculator</title>
+<meta name="description" content="Interactive scenario calculator for carbon-reduction potential across seed-production crop portfolios.">
+<meta property="og:title" content="Seed Production Carbon Potential Calculator">
+<meta property="og:description" content="Model carbon-reduction potential, MRV coverage and methodology-linked credit-equivalent potential across a seed-production portfolio.">
 <meta property="og:type" content="website">
-<title>Seed Industry Carbon Reduction Calculator</title>
 <style>
-:root{--green:#0b5b45;--green2:#1f7a5a;--ink:#17332b;--muted:#64756e;--line:#d9e4df;--bg:#f4f8f6;--white:#fff}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,Arial,sans-serif;color:var(--ink)}
-.wrap{max-width:1100px;margin:0 auto;padding:28px 18px 44px}
-header{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:22px}
-h1{font-family:Georgia,serif;font-size:38px;line-height:1.05;margin:0 0 8px;color:var(--green)}
-.sub{font-size:17px;color:var(--muted);max-width:760px;line-height:1.45}
-.badge{background:#e7f1ec;border:1px solid #c8ddd3;color:var(--green);padding:9px 12px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
-.grid{display:grid;grid-template-columns:1fr 1.12fr;gap:18px}
-.card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:20px}
-.card h2{font-size:18px;margin:0 0 16px;color:var(--green)}
-.field{margin:0 0 18px}.labelrow{display:flex;justify-content:space-between;gap:10px;align-items:center}
-label{font-weight:700;font-size:14px}.value{font-weight:800;color:var(--green)}
-input[type=range]{width:100%;accent-color:var(--green2);margin:10px 0}
-input[type=number]{width:110px;padding:8px 9px;border:1px solid #cbd9d3;border-radius:8px;font-size:15px}
-.small{font-size:12px;color:var(--muted);line-height:1.4}
-.result{background:var(--green);color:white;border-radius:16px;padding:22px;margin-bottom:16px}
-.result .eyebrow{font-size:13px;opacity:.85;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
-.result .num{font-family:Georgia,serif;font-size:46px;font-weight:700;line-height:1.05;margin:7px 0}
-.result .unit{font-size:16px;opacity:.9}
-.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
-.kpi{border:1px solid var(--line);border-radius:12px;padding:13px;background:#fbfdfc}.kpi b{display:block;font-size:20px}.kpi span{font-size:11px;color:var(--muted)}
-table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px 7px;border-bottom:1px solid var(--line);text-align:right}th:first-child,td:first-child{text-align:left}th{color:var(--muted);font-size:11px;text-transform:uppercase}
-.note{background:#fff8e8;border:1px solid #ead9ad;border-radius:12px;padding:13px;margin-top:16px;font-size:12px;line-height:1.45;color:#66542b}
-.footer{margin-top:18px;font-size:12px;color:var(--muted);line-height:1.5}
-@media(max-width:780px){header{display:block}.badge{display:inline-block;margin-top:12px}.grid{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}.result .num{font-size:38px}}
+:root{
+  --ink:#17324d; --muted:#66788a; --line:#dbe4ea; --bg:#f5f8fa;
+  --card:#fff; --accent:#0b7a75; --accent2:#155e75; --warn:#9a6700;
+  --good:#176b48; --bad:#9b2c2c; --shadow:0 8px 28px rgba(22,43,61,.08);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.45}
+.container{max-width:1180px;margin:auto;padding:24px}
+.hero{background:linear-gradient(135deg,#123c56,#0b6f69);color:#fff;border-radius:22px;padding:30px;box-shadow:var(--shadow)}
+.hero h1{margin:0 0 8px;font-size:32px;letter-spacing:-.5px}
+.hero p{margin:7px 0;max-width:900px;color:#e5f4f3}
+.badge{display:inline-block;border:1px solid rgba(255,255,255,.35);padding:5px 10px;border-radius:999px;font-size:12px;margin-bottom:10px}
+.grid{display:grid;gap:18px}
+.cards{grid-template-columns:repeat(4,1fr);margin:18px 0}
+.card,.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--shadow)}
+.metric{font-size:28px;font-weight:800;margin-top:5px}
+.metric small{font-size:13px;font-weight:600;color:var(--muted)}
+.label{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}
+.main{grid-template-columns:1.15fr .85fr}
+h2{margin:0 0 14px;font-size:20px}
+h3{font-size:15px;margin:18px 0 8px}
+table{width:100%;border-collapse:collapse}
+th,td{padding:11px 8px;border-bottom:1px solid var(--line);vertical-align:middle;text-align:left}
+th{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+input[type=number],select{width:100%;padding:10px 11px;border:1px solid #cbd7df;border-radius:9px;background:#fff;color:var(--ink);font-size:14px}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.range-row{display:grid;grid-template-columns:1fr 52px;gap:10px;align-items:center}
+.range-val{text-align:center;font-weight:700;font-size:13px;background:#eef6f5;border-radius:7px;padding:6px}
+.note{font-size:12px;color:var(--muted)}
+.status{font-size:11px;padding:4px 7px;border-radius:999px;display:inline-block;font-weight:700}
+.status.green{background:#e6f4ed;color:var(--good)}
+.status.amber{background:#fff5d9;color:var(--warn)}
+.status.gray{background:#edf1f4;color:#5d6b76}
+button{border:0;border-radius:10px;padding:11px 15px;font-weight:750;cursor:pointer;background:var(--accent);color:#fff}
+button.secondary{background:#e9eff3;color:var(--ink)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
+.scenarios{display:flex;gap:8px;flex-wrap:wrap}
+.scenarios button{background:#edf5f5;color:#155b59;border:1px solid #cde3e1}
+.scenarios button.active{background:var(--accent);color:white}
+.callout{background:#eef7f6;border-left:4px solid var(--accent);padding:13px 15px;border-radius:8px;font-size:13px}
+.warning{background:#fff8e7;border-left:4px solid #d39b24;padding:13px 15px;border-radius:8px;font-size:13px}
+.flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.flow span{background:#f0f4f6;border:1px solid var(--line);padding:8px 11px;border-radius:8px;font-size:12px;font-weight:700}
+.flow b{color:#91a0aa}
+.bar{height:12px;background:#e8eef1;border-radius:999px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#0b7a75,#3b9a8f)}
+.footer{font-size:11px;color:#71808d;margin:20px 3px 5px}
+@media(max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}.main{grid-template-columns:1fr}}
+@media(max-width:560px){.cards{grid-template-columns:1fr}.container{padding:12px}.hero{padding:22px}.hero h1{font-size:25px}th:nth-child(4),td:nth-child(4){display:none}}
 </style>
 </head>
 <body>
-<div class="wrap">
-<header>
-<div>
-<h1>Carbon Reduction Potential Calculator</h1>
-<div class="sub">India's seed industry — from production data to climate impact. Adjust the assumptions to explore an <b>illustrative</b> emissions-reduction scenario for seed production.</div>
-</div>
-<div class="badge">ILLUSTRATIVE — NOT A VERIFIED INDUSTRY ESTIMATE</div>
-</header>
-
-<div class="grid">
-<section class="card">
-<h2>1. Scenario inputs</h2>
-
-<div class="field">
-<div class="labelrow"><label for="acreage">Total seed-production acreage</label><span class="value" id="acreageVal"></span></div>
-<input id="acreage" type="range" min="100000" max="2000000" step="10000" value="1200000">
-<div class="small">Hectares under the scenario.</div>
-</div>
-
-<div class="field">
-<div class="labelrow"><label>Paddy / Rice share</label><span class="value" id="riceVal"></span></div>
-<input id="rice" type="range" min="0" max="100" step="1" value="30">
-</div>
-<div class="field">
-<div class="labelrow"><label>Maize share</label><span class="value" id="maizeVal"></span></div>
-<input id="maize" type="range" min="0" max="100" step="1" value="20">
-</div>
-<div class="field">
-<div class="labelrow"><label>Cotton share</label><span class="value" id="cottonVal"></span></div>
-<input id="cotton" type="range" min="0" max="100" step="1" value="15">
-</div>
-<div class="field">
-<div class="labelrow"><label>Vegetables share</label><span class="value" id="vegVal"></span></div>
-<input id="veg" type="range" min="0" max="100" step="1" value="15">
-</div>
-<div class="field">
-<div class="labelrow"><label>Other crops share</label><span class="value" id="otherVal"></span></div>
-<input id="other" type="range" min="0" max="100" step="1" value="20">
-</div>
-<div class="small" id="mixWarning"></div>
-
-<h2 style="margin-top:24px">2. Illustrative reduction potential</h2>
-<div class="small" style="margin-bottom:10px">Estimated reduction per hectare if the relevant improved practices are fully adopted in each crop category.</div>
-
-<div class="field"><div class="labelrow"><label>Paddy / Rice</label><span class="value"><input id="rRice" type="number" min="0" max="10" step=".1" value="2.5"> tCO₂e/ha</span></div></div>
-<div class="field"><div class="labelrow"><label>Maize</label><span class="value"><input id="rMaize" type="number" min="0" max="10" step=".1" value="1.8"> tCO₂e/ha</span></div></div>
-<div class="field"><div class="labelrow"><label>Cotton</label><span class="value"><input id="rCotton" type="number" min="0" max="10" step=".1" value="1.5"> tCO₂e/ha</span></div></div>
-<div class="field"><div class="labelrow"><label>Vegetables</label><span class="value"><input id="rVeg" type="number" min="0" max="10" step=".1" value="1.5"> tCO₂e/ha</span></div></div>
-<div class="field"><div class="labelrow"><label>Other crops</label><span class="value"><input id="rOther" type="number" min="0" max="10" step=".1" value="1.2"> tCO₂e/ha</span></div></div>
-
-<div class="field">
-<div class="labelrow"><label for="adoption">Adoption rate</label><span class="value" id="adoptionVal"></span></div>
-<input id="adoption" type="range" min="0" max="100" step="1" value="100">
-<div class="small">Share of the scenario acreage implementing the assumed reduction practices.</div>
-</div>
+<div class="container">
+<section class="hero">
+  <div class="badge">PUBLIC TEASER • Scenario Model • v1.3</div>
+  <h1>Seed Production Climate & Carbon Potential Calculator</h1>
+  <p>Explore the potential annual CO₂e reduction from best-practice adoption across your seed-production portfolio — using your own acreage and crop mix.</p>
+  <p style="font-size:12px;opacity:.9">This public teaser is a scenario calculator, not a carbon-credit certification, verification or issuance tool.</p>
 </section>
 
-<section>
-<div class="result">
-<div class="eyebrow">Estimated annual CO₂e reduction potential</div>
-<div class="num" id="total">0</div>
-<div class="unit">tonnes CO₂e per year</div>
+<section class="panel" style="margin-top:18px">
+  <h2>1. Build your company portfolio</h2>
+  <p class="note">Select the total seed-production area relevant to your company, then allocate that area across the crop mix. The calculator will keep the portfolio balanced automatically.</p>
+
+  <div class="card" style="box-shadow:none;background:#f7fafb;margin-bottom:14px">
+    <div class="label">Total seed-production portfolio</div>
+    <div class="metric" id="portfolioDisplay">25,000 <small>acres</small></div>
+    <input id="portfolioArea" type="range" min="1000" max="50000" step="500" value="25000">
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted)">
+      <span>1,000 acres</span><span>50,000 acres</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+      <div>
+        <label class="label" for="portfolioExact">Or enter exact acreage</label>
+        <input id="portfolioExact" type="number" min="1000" max="50000" step="100" value="25000">
+      </div>
+      <div>
+        <label class="label">Remaining to allocate</label>
+        <div class="metric" style="font-size:22px" id="remainingArea">0 <small>acres</small></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid" style="grid-template-columns:1fr 1fr 1fr">
+    <div>
+      <label class="label" for="companyName">Company name (optional)</label>
+      <input id="companyName" type="text" placeholder="Enter company name">
+    </div>
+    <div>
+      <label class="label" for="projectName">Project / assessment name (optional)</label>
+      <input id="projectName" type="text" placeholder="e.g., Seed Climate Assessment">
+    </div>
+    <div>
+      <label class="label" for="assessmentYear">Assessment year</label>
+      <input id="assessmentYear" type="number" min="2020" max="2100" value="2026">
+    </div>
+  </div>
+
+  <h3>Allocate your crop mix</h3>
+  <table>
+    <thead><tr><th>Crop</th><th>Selected acres</th><th>Share of portfolio</th><th>Allocation</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>Rice</b></td>
+        <td><input id="riceArea" type="number" min="0" step="100" value="10000"></td>
+        <td id="riceShare">40.0%</td>
+        <td><input id="riceAlloc" type="range" min="0" max="25000" step="100" value="10000"></td>
+      </tr>
+      <tr>
+        <td><b>Corn / Maize</b></td>
+        <td><input id="cornArea" type="number" min="0" step="100" value="6000"></td>
+        <td id="cornShare">24.0%</td>
+        <td><input id="cornAlloc" type="range" min="0" max="25000" step="100" value="6000"></td>
+      </tr>
+      <tr>
+        <td><b>Cotton</b></td>
+        <td><input id="cottonArea" type="number" min="0" step="100" value="5000"></td>
+        <td id="cottonShare">20.0%</td>
+        <td><input id="cottonAlloc" type="range" min="0" max="25000" step="100" value="5000"></td>
+      </tr>
+      <tr>
+        <td><b>Other crops</b></td>
+        <td><input id="otherArea" type="number" min="0" step="100" value="4000"></td>
+        <td id="otherShare">16.0%</td>
+        <td><input id="otherAlloc" type="range" min="0" max="25000" step="100" value="4000"></td>
+      </tr>
+      <tr>
+        <td colspan="2"><b>Total allocated</b></td>
+        <td id="totalShare"><b>100.0%</b></td>
+        <td><span id="allocationStatus" class="status green">Balanced</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div id="allocationWarning" class="warning" style="display:none;margin-top:10px"></div>
+
+  <div class="callout" style="margin-top:12px">
+    <b>Portfolio rule:</b> the four crop areas must add up to the selected company portfolio. A company can use any mix within the selected 1,000–50,000 acre range.
+  </div>
+</section>
+
+<section class="panel" style="margin-top:18px">
+  <h2>2. Practice ambition & MRV readiness</h2>
+  <div class="scenarios" id="scenarioButtons" aria-label="Scenario presets">
+    <button data-scenario="conservative">Conservative</button>
+    <button data-scenario="accelerated">Accelerated</button>
+    <button data-scenario="full" class="active">Best practice + robust MRV</button>
+    <button data-scenario="custom">Custom</button>
+  </div>
+
+  <table style="margin-top:12px">
+    <thead><tr><th>Crop</th><th>Best-practice adoption</th><th>MRV coverage</th><th>Illustrative factor range*</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>Rice</b><br><span class="status green">Methodology-linked pathway</span></td>
+        <td><div class="range-row"><input id="riceAdopt" type="range" min="0" max="100" value="100"><div class="range-val" id="riceAdoptVal">100%</div></div></td>
+        <td><div class="range-row"><input id="riceMrv" type="range" min="0" max="100" value="100"><div class="range-val" id="riceMrvVal">100%</div></div></td>
+        <td>2.0–2.5 tCO₂e/ha</td>
+      </tr>
+      <tr>
+        <td><b>Corn / Maize</b><br><span class="status amber">Scenario only</span></td>
+        <td><div class="range-row"><input id="cornAdopt" type="range" min="0" max="100" value="100"><div class="range-val" id="cornAdoptVal">100%</div></div></td>
+        <td><div class="range-row"><input id="cornMrv" type="range" min="0" max="100" value="100"><div class="range-val" id="cornMrvVal">100%</div></div></td>
+        <td>1.0–1.5 tCO₂e/ha</td>
+      </tr>
+      <tr>
+        <td><b>Cotton</b><br><span class="status amber">Scenario only</span></td>
+        <td><div class="range-row"><input id="cottonAdopt" type="range" min="0" max="100" value="100"><div class="range-val" id="cottonAdoptVal">100%</div></div></td>
+        <td><div class="range-row"><input id="cottonMrv" type="range" min="0" max="100" value="100"><div class="range-val" id="cottonMrvVal">100%</div></div></td>
+        <td>1.0–1.5 tCO₂e/ha</td>
+      </tr>
+      <tr>
+        <td><b>Other crops</b><br><span class="status gray">Scenario only</span></td>
+        <td><div class="range-row"><input id="otherAdopt" type="range" min="0" max="100" value="100"><div class="range-val" id="otherAdoptVal">100%</div></div></td>
+        <td><div class="range-row"><input id="otherMrv" type="range" min="0" max="100" value="100"><div class="range-val" id="otherMrvVal">100%</div></div></td>
+        <td><input id="otherFactor" type="number" min="0" max="10" step="0.05" value="1.00"></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="note" style="margin-top:8px">* Illustrative scenario assumptions only. Replace with project-specific methodology parameters before any real carbon-credit project decision.</div>
+</section>
+
+<div class="grid cards">
+  <div class="card"><div class="label">Total portfolio</div><div class="metric" id="totalAcres">0 <small>acres</small></div></div>
+  <div class="card"><div class="label">Modeled reduction</div><div class="metric" id="reduction">0 <small>tCO₂e/yr</small></div></div>
+  <div class="card"><div class="label">MRV-covered reduction</div><div class="metric" id="mrvReduction">0 <small>tCO₂e/yr</small></div></div>
+  <div class="card"><div class="label">Methodology-linked potential</div><div class="metric" id="creditPotential">— <small>tCO₂e/yr</small></div></div>
 </div>
 
-<div class="kpis">
-<div class="kpi"><b id="acreageOut">0</b><span>scenario hectares</span></div>
-<div class="kpi"><b id="avgOut">0.00</b><span>tCO₂e/ha weighted reduction</span></div>
-<div class="kpi"><b id="adoptOut">0%</b><span>adoption rate</span></div>
+<div class="grid main">
+<section class="panel">
+  <h2>2. Carbon potential</h2>
+  <div id="portfolioStatus" class="callout" style="margin-bottom:12px"><b>Portfolio status:</b> Checking allocation…</div>
+  <div id="summaryText" class="note"></div>
+
+  <h3>Reduction range by crop</h3>
+  <div id="bars"></div>
+
+  <h3>Credit-development gate</h3>
+  <div class="callout">
+    <b>Rice:</b> BEE currently lists BM AG04.002, “Emission reduction through improved management practices in rice cultivation,” under the CCTS Offset Mechanism. This calculator therefore shows a methodology-linked <i>potential</i> for rice only. It does not assume issuance.
+  </div>
+  <div class="warning" style="margin-top:10px">
+    <b>Corn, cotton and other crops:</b> they remain modeled for emissions-reduction potential, but this calculator does not treat them as CCTS-creditable by default. A future methodology or another appropriate crediting standard would need to be established and applied.
+  </div>
+
+  <h3>Additionality / eligibility assumption</h3>
+  <label style="display:flex;gap:9px;align-items:flex-start;font-size:13px">
+    <input id="additionality" type="checkbox" style="margin-top:3px">
+    <span>I want to view a <b>scenario-only credit-equivalent</b> number assuming project eligibility and additionality are demonstrated. I understand this is not an issuance forecast.</span>
+  </label>
+
+  <div class="grid" style="grid-template-columns:1fr 1fr;margin-top:15px">
+    <div class="card" style="box-shadow:none">
+      <div class="label">Low-case modeled reduction</div>
+      <div class="metric" id="lowReduction">0</div>
+      <div class="note">tCO₂e/year</div>
+    </div>
+    <div class="card" style="box-shadow:none">
+      <div class="label">High-case modeled reduction</div>
+      <div class="metric" id="highReduction">0</div>
+      <div class="note">tCO₂e/year</div>
+    </div>
+  </div>
+
+  <div id="creditBox" class="card" style="margin-top:12px;background:#f7fafb;box-shadow:none">
+    <div class="label">Potential credit-equivalent volume</div>
+    <div class="metric" id="creditBoxValue">—</div>
+    <div class="note" id="creditBoxNote">Enable the assumption above to display a scenario-only rice credit-equivalent range.</div>
+  </div>
+</section>
 </div>
 
-<div class="card">
-<h2>Results by crop category</h2>
-<table>
-<thead><tr><th>Crop category</th><th>Acreage (ha)</th><th>Reduction<br>tCO₂e/yr</th><th>Share</th></tr></thead>
-<tbody id="rows"></tbody>
-</table>
+<section class="panel" style="margin-top:18px">
+  <h2>3. Crop-by-crop calculation logic</h2>
+  <table>
+    <thead><tr><th>Crop</th><th>Area ha</th><th>Adopted ha</th><th>Low reduction</th><th>High reduction</th><th>MRV-covered high</th></tr></thead>
+    <tbody id="calcTable"></tbody>
+  </table>
+
+  <h3>MRV pathway</h3>
+  <div class="flow">
+    <span>Field / GPS boundary</span><b>→</b>
+    <span>Practice evidence</span><b>→</b>
+    <span>Inputs + water + energy</span><b>→</b>
+    <span>Activity data</span><b>→</b>
+    <span>Emission calculation</span><b>→</b>
+    <span>MRV</span><b>→</b>
+    <span>Validation / verification</span><b>→</b>
+    <span>Potential issuance</span>
+  </div>
+  <p class="note" style="margin-top:12px">
+    The strongest future version should connect the calculator to actual field IDs, GPS polygons, grower records, crop operations, input records, irrigation/water data, energy/fuel use, harvest/processing data and audit evidence rather than relying on generic assumptions.
+  </p>
+</section>
+
+<div class="actions">
+  <button onclick="window.print()">Print / Save PDF</button>
+  <button class="secondary" onclick="resetDefaults()">Reset scenario</button>
 </div>
 
-<div class="note"><b>Important:</b> The displayed result is a scenario calculation, not a measured, verified or official estimate for India's seed industry. Replace the illustrative inputs with documented crop-specific acreage, activity data, baselines, applicable emission factors and an accepted methodology before using the result for reporting or carbon-market purposes.</div>
+<section class="panel" style="margin-top:18px">
+  <h2>Developer & Disclosures</h2>
+  <p><b>Developed by Raja Vadlamani</b></p>
+  <p class="note">
+    This is an independent public scenario tool developed by Raja Vadlamani to help companies explore the potential climate and carbon implications of improved practices across seed-production landscapes.
+  </p>
+  <p class="note">
+    <b>Purpose:</b> education, screening and scenario exploration. It is not intended to establish a company's official GHG inventory, carbon footprint, regulatory compliance position or carbon-credit entitlement.
+  </p>
+  <div class="warning">
+    <b>Full disclosure:</b>
+    This calculator is an analytical and educational scenario tool. It is not a carbon-credit registry, certification system, validation/verification service, legal opinion, accounting opinion, investment recommendation, tax advice, or assurance statement. Results are estimates generated from user inputs and illustrative assumptions. They must not be represented as verified emission reductions, issued Carbon Credit Certificates (CCCs), offsets, removals, Scope 1/2/3 inventory results, or guaranteed financial value.
+  </div>
+  <div class="warning" style="margin-top:10px">
+    <b>Methodology disclosure:</b>
+    The calculator does not substitute for an approved methodology, project design document, baseline study, monitoring plan, additionality assessment, uncertainty assessment, leakage assessment, permanence assessment where applicable, validation, verification or registry decision.
+    The Bureau of Energy Efficiency (BEE) currently lists <b>BM AG04.002 — Emission reduction through improved management practices in rice cultivation</b> under the CCTS Offset Mechanism.
+    <br><span class="note">Reference: BEE, “Methodologies and Tools under Offset Mechanism”, last updated 7 July 2026.</span>
+  </div>
+  <div class="warning" style="margin-top:10px">
+    <b>Credit disclosure:</b>
+    A modeled tCO₂e reduction is not automatically a carbon credit. Under the CCTS Offset Mechanism, project registration and issuance are subject to applicable eligibility, methodology, monitoring and validation/verification requirements. This tool does not predict or guarantee issuance.
+    <br><span class="note">Reference: BEE CCTS Offset Mechanism materials and approved methodologies.</span>
+  </div>
+  <div class="warning" style="margin-top:10px">
+    <b>Factor disclosure:</b>
+    The crop-level reduction factors in this tool are illustrative placeholders for scenario analysis. They are not claimed to be official BEE/CCTS factors. For an actual project, replace them with methodology-specific equations, parameters, activity data and project/baseline calculations supported by appropriate evidence.
+  </div>
+<div class="warning" style="margin-top:10px">
+    <b>GHG accounting disclosure:</b>
+    This calculator is not a GHG Protocol inventory calculator. The GHG Protocol Land Sector and Removals Standard provides requirements and guidance for accounting and reporting land-sector emissions and removals; its effective date is 1 January 2027. Any corporate reporting claim should be assessed against the applicable GHG Protocol requirements and the company's defined inventory boundary.
+    <br><span class="note">Reference: GHG Protocol, Land Sector and Removals Standard v1.1 and Guidance, 2026.</span>
+  </div>
+  <div class="warning" style="margin-top:10px">
+    <b>Scope disclosure:</b>
+    This calculator does not determine whether a company's reductions can be counted toward a corporate GHG inventory, Scope 3 category, product carbon footprint, insetting claim or any other corporate climate claim. Such treatment depends on the relevant accounting framework, boundary, ownership/control rules and claim requirements.
+  </div>
+  <div class="warning" style="margin-top:10px">
+    <b>No guarantee:</b>
+    Actual carbon-reduction outcomes, credit volumes, eligibility, verification results, issuance, marketability or economic value may differ materially from this scenario output.
+  </div>
+
+  <div class="callout" style="margin-top:10px">
+    <b>Public reference sources:</b> Bureau of Energy Efficiency (BEE), CCTS Offset Mechanism and approved methodologies; GHG Protocol, Land Sector and Removals Standard v1.1 and Guidance. Users should consult the latest official publications before relying on any result for a real project.
+  </div>
+  <p class="note" style="margin-top:12px">
+    The CCTS framework and approved methodologies can change. Users should check the latest BEE/Indian Carbon Market documents and obtain appropriate technical, legal, accounting and carbon-market advice before relying on the results for a real project.
+  </p>
+</section>
 
 <div class="footer">
-<b>Calculation logic:</b> Crop acreage × illustrative reduction potential per hectare × adoption rate, summed across crop categories.
-<br><br>
-The calculator is designed to demonstrate the article's core proposition: <b>connect seed-production data first; quantify climate impact from evidence second.</b>
-</div>
-</section>
+  Seed Production Carbon Potential Calculator v1.3 • Area conversion: 1 acre = 0.404685642 ha • Results are annualized model outputs. Carbon-credit issuance is subject to the applicable programme, methodology, project eligibility, baseline, additionality, monitoring, validation/verification and registry decisions.
 </div>
 </div>
 
 <script>
-const ids=['acreage','rice','maize','cotton','veg','other','adoption','rRice','rMaize','rCotton','rVeg','rOther'];
-const $=id=>document.getElementById(id);
-const fmt=n=>Math.round(n).toLocaleString('en-IN');
-function val(id){return Math.max(0,Number($(id).value)||0)}
-function calc(){
- const acreage=val('acreage');
- const shares=[val('rice'),val('maize'),val('cotton'),val('veg'),val('other')];
- const rates=[val('rRice'),val('rMaize'),val('rCotton'),val('rVeg'),val('rOther')];
- const names=['Paddy / Rice','Maize','Cotton','Vegetables','Other crops'];
- const keys=['rice','maize','cotton','veg','other'];
- const totalShare=shares.reduce((a,b)=>a+b,0);
- $('mixWarning').textContent= totalShare===100 ? 'Crop mix totals 100%.' : `Crop mix currently totals ${totalShare}%. The calculator will normalize the mix to 100%.`;
- const norm=totalShare>0?shares.map(x=>x/totalShare):shares.map(()=>.2);
- const adoption=val('adoption')/100;
- let total=0, rows='';
- for(let i=0;i<5;i++){
-   const ha=acreage*norm[i];
-   const red=ha*rates[i]*adoption;
-   total+=red;
-   rows+=`<tr><td>${names[i]}</td><td>${fmt(ha)}</td><td>${fmt(red)}</td><td>${total?((red/total)*100).toFixed(1):'0.0'}%</td></tr>`;
- }
- const weighted=norm.reduce((s,x,i)=>s+x*rates[i],0)*adoption;
- $('acreageVal').textContent=fmt(acreage)+' ha';
- $('riceVal').textContent=val('rice')+'%'; $('maizeVal').textContent=val('maize')+'%';
- $('cottonVal').textContent=val('cotton')+'%'; $('vegVal').textContent=val('veg')+'%'; $('otherVal').textContent=val('other')+'%';
- $('adoptionVal').textContent=Math.round(adoption*100)+'%';
- $('total').textContent=fmt(total); $('acreageOut').textContent=fmt(acreage);
- $('avgOut').textContent=weighted.toFixed(2); $('adoptOut').textContent=Math.round(adoption*100)+'%';
- $('rows').innerHTML=rows;
+const crops = [
+  {key:'rice',name:'Rice',eligible:true,low:2.0,high:2.5,area:'riceArea',adopt:'riceAdopt',mrv:'riceMrv'},
+  {key:'corn',name:'Corn / Maize',eligible:false,low:1.0,high:1.5,area:'cornArea',adopt:'cornAdopt',mrv:'cornMrv'},
+  {key:'cotton',name:'Cotton',eligible:false,low:1.0,high:1.5,area:'cottonArea',adopt:'cottonAdopt',mrv:'cottonMrv'},
+  {key:'other',name:'Other crops',eligible:false,low:null,high:null,area:'otherArea',adopt:'otherAdopt',mrv:'otherMrv'}
+];
+const ACRE_TO_HA = 0.404685642;
+const presets = {
+  conservative:{adopt:50,mrv:50},
+  accelerated:{adopt:75,mrv:80},
+  full:{adopt:100,mrv:100}
+};
+
+function n(id){ return Math.max(0,Number(document.getElementById(id).value)||0); }
+function pct(id){ return Number(document.getElementById(id).value)||0; }
+function portfolio(){ return Math.min(50000,Math.max(1000,Number(document.getElementById('portfolioArea').value)||25000)); }
+function fmt(x){ return Math.round(x).toLocaleString('en-IN'); }
+function fmt1(x){ return x.toLocaleString('en-IN',{minimumFractionDigits:1,maximumFractionDigits:1}); }
+
+function updateRangeLabels(){
+  crops.forEach(c=>{
+    document.getElementById(c.adopt+'Val').textContent=pct(c.adopt)+'%';
+    document.getElementById(c.mrv+'Val').textContent=pct(c.mrv)+'%';
+  });
 }
-ids.forEach(id=>$(id).addEventListener('input',calc));
-calc();
+
+function getFactors(c){
+  if(c.key==='other'){
+    const f=n('otherFactor');
+    return {low:f,high:f};
+  }
+  return {low:c.low,high:c.high};
+}
+
+function syncPortfolioControls(){
+  const total=portfolio();
+  document.getElementById('portfolioDisplay').innerHTML=fmt(total)+' <small>acres</small>';
+  document.getElementById('portfolioExact').value=total;
+  ['rice','corn','cotton','other'].forEach(k=>{
+    document.getElementById(k+'Alloc').max=total;
+  });
+}
+
+function setPortfolioTotal(newTotal){
+  newTotal=Math.min(50000,Math.max(1000,Math.round(newTotal/500)*500));
+  const keys=['rice','corn','cotton','other'];
+  const oldTotal=keys.reduce((s,k)=>s+n(k+'Area'),0);
+  if(oldTotal>0){
+    let assigned=0;
+    keys.forEach((k,i)=>{
+      let v;
+      if(i<keys.length-1){
+        v=Math.round((n(k+'Area')/oldTotal*newTotal)/100)*100;
+        assigned+=v;
+      } else {
+        v=Math.max(0,newTotal-assigned);
+      }
+      document.getElementById(k+'Area').value=v;
+      document.getElementById(k+'Alloc').value=v;
+    });
+  } else {
+    document.getElementById('riceArea').value=newTotal;
+    document.getElementById('riceAlloc').value=newTotal;
+  }
+  document.getElementById('portfolioArea').value=newTotal;
+  document.getElementById('portfolioExact').value=newTotal;
+  syncPortfolioControls();
+  calculate();
+}
+
+function syncAreaFromSlider(key){
+  const val=Number(document.getElementById(key+'Alloc').value)||0;
+  document.getElementById(key+'Area').value=val;
+}
+function syncSliderFromArea(key){
+  let val=Math.max(0,Number(document.getElementById(key+'Area').value)||0);
+  const total=portfolio();
+  val=Math.min(total,val);
+  document.getElementById(key+'Area').value=val;
+  document.getElementById(key+'Alloc').value=val;
+}
+
+function rebalanceIfNeeded(changedKey){
+  const total=portfolio();
+  const keys=['rice','corn','cotton','other'];
+  let vals={}; keys.forEach(k=>vals[k]=Math.max(0,Number(document.getElementById(k+'Area').value)||0));
+  let sum=keys.reduce((a,k)=>a+vals[k],0);
+  if(sum<=total) return;
+  let excess=sum-total;
+  const others=keys.filter(k=>k!==changedKey);
+  for(let i=others.length-1;i>=0 && excess>0;i--){
+    const k=others[i], cut=Math.min(vals[k],excess);
+    vals[k]-=cut; excess-=cut;
+  }
+  if(excess>0){
+    vals[changedKey]=Math.max(0,vals[changedKey]-excess);
+  }
+  keys.forEach(k=>{
+    document.getElementById(k+'Area').value=Math.round(vals[k]/100)*100;
+    document.getElementById(k+'Alloc').value=Math.round(vals[k]/100)*100;
+  });
+}
+
+function calculate(){
+  syncPortfolioControls();
+  updateRangeLabels();
+
+  const totalPortfolio=portfolio();
+  const keys=['rice','corn','cotton','other'];
+  const allocated=keys.reduce((s,k)=>s+n(k+'Area'),0);
+  const remaining=totalPortfolio-allocated;
+
+  document.getElementById('remainingArea').innerHTML=fmt(Math.max(0,remaining))+' <small>acres</small>';
+  document.getElementById('remainingArea').style.color=remaining===0?'var(--good)':(remaining<0?'var(--bad)':'var(--warn)');
+
+  keys.forEach(k=>{
+    const share=totalPortfolio ? n(k+'Area')/totalPortfolio*100 : 0;
+    document.getElementById(k+'Share').textContent=share.toFixed(1)+'%';
+  });
+  document.getElementById('totalShare').innerHTML='<b>'+((allocated/totalPortfolio)*100).toFixed(1)+'%</b>';
+
+  const balanced=Math.abs(allocated-totalPortfolio)<0.5;
+  const portfolioStatus=document.getElementById('portfolioStatus');
+  portfolioStatus.innerHTML=balanced
+    ? '<b>Portfolio status:</b> Balanced — '+fmt(totalPortfolio)+' acres fully allocated across the selected crops.'
+    : '<b>Portfolio status:</b> '+(allocated<totalPortfolio ? fmt(totalPortfolio-allocated)+' acres still to allocate.' : fmt(allocated-totalPortfolio)+' acres over the selected portfolio.')+' Complete the allocation before using the carbon result.';
+  portfolioStatus.style.borderLeftColor=balanced?'var(--accent)':'#d39b24';
+  const status=document.getElementById('allocationStatus');
+  status.textContent=balanced?'Balanced':(allocated<totalPortfolio?'Unallocated':'Over-allocated');
+  status.className='status '+(balanced?'green':'amber');
+  const aw=document.getElementById('allocationWarning');
+  if(!balanced){
+    aw.style.display='block';
+    aw.innerHTML=allocated<totalPortfolio
+      ? '<b>'+fmt(totalPortfolio-allocated)+' acres remain unallocated.</b> Allocate the balance before interpreting the final portfolio result.'
+      : '<b>The crop allocation exceeds the selected portfolio by '+fmt(allocated-totalPortfolio)+' acres.</b> The calculator will prevent over-allocation when you edit a crop.';
+  } else aw.style.display='none';
+
+  let low=0, high=0, mrvHigh=0, riceCreditLow=0, riceCreditHigh=0;
+  let rows=[];
+  crops.forEach(c=>{
+    const acres=n(c.area), ha=acres*ACRE_TO_HA, adopt=pct(c.adopt)/100, mrv=pct(c.mrv)/100;
+    const adoptedHa=ha*adopt, f=getFactors(c);
+    const lowR=adoptedHa*f.low, highR=adoptedHa*f.high, mrvR=highR*mrv;
+    low+=lowR; high+=highR; mrvHigh+=mrvR;
+    if(c.eligible){riceCreditLow=lowR*mrv; riceCreditHigh=highR*mrv;}
+    rows.push({c,acres,ha,adoptedHa,lowR,highR,mrvR});
+  });
+
+  document.getElementById('totalAcres').innerHTML=fmt(allocated)+' <small>allocated acres</small>';
+  document.getElementById('reduction').innerHTML=balanced ? fmt(high)+' <small>tCO₂e/yr</small>' : '— <small>balance portfolio</small>';
+  document.getElementById('mrvReduction').innerHTML=balanced ? fmt(mrvHigh)+' <small>tCO₂e/yr</small>' : '— <small>balance portfolio</small>';
+  document.getElementById('lowReduction').textContent=fmt(low);
+  document.getElementById('highReduction').textContent=fmt(high);
+
+  const add=document.getElementById('additionality').checked;
+  document.getElementById('creditPotential').innerHTML=(add && balanced) ? fmt(riceCreditHigh)+' <small>tCO₂e/yr</small>' : '— <small>tCO₂e/yr</small>';
+  document.getElementById('creditBoxValue').textContent=(add && balanced) ? fmt(riceCreditLow)+' – '+fmt(riceCreditHigh)+' tCO₂e/yr' : '—';
+  document.getElementById('creditBoxNote').textContent=(add && balanced)
+    ? 'Scenario-only rice credit-equivalent range after MRV coverage, assuming project eligibility and additionality are demonstrated. Actual issuance can differ.'
+    : 'Balance the crop portfolio and enable the additionality/eligibility assumption to display a scenario-only rice credit-equivalent range.';
+
+  const company=document.getElementById('companyName').value.trim();
+  const prefix=company ? '<b>'+company.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</b>: ' : '';
+  document.getElementById('summaryText').innerHTML=
+    prefix+'The selected portfolio is <b>'+fmt(totalPortfolio)+' acres</b>. The current allocation contains <b>'+fmt(allocated)+' acres</b>. '
+    +'The illustrative modeled reduction range is <b>'+fmt(low)+'–'+fmt(high)+' tCO₂e/year</b>. '
+    +'At the selected MRV coverage, the high-case MRV-covered reduction is <b>'+fmt(mrvHigh)+' tCO₂e/year</b>.';
+
+  const bars=document.getElementById('bars'); bars.innerHTML='';
+  const max=Math.max(...rows.map(r=>r.highR),1);
+  rows.forEach(r=>{
+    const wrap=document.createElement('div'); wrap.style.margin='9px 0';
+    wrap.innerHTML='<div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><b>'+r.c.name+'</b><span>'+fmt(r.lowR)+'–'+fmt(r.highR)+' tCO₂e</span></div><div class="bar"><i style="width:'+Math.min(100,(r.highR/max)*100)+'%"></i></div>';
+    bars.appendChild(wrap);
+  });
+
+  const tb=document.getElementById('calcTable'); tb.innerHTML='';
+  rows.forEach(r=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML='<td><b>'+r.c.name+'</b></td><td>'+fmt1(r.ha)+'</td><td>'+fmt1(r.adoptedHa)+'</td><td>'+fmt1(r.lowR)+'</td><td>'+fmt1(r.highR)+'</td><td>'+fmt1(r.mrvR)+'</td>';
+    tb.appendChild(tr);
+  });
+}
+
+function applyPreset(name){
+  document.querySelectorAll('#scenarioButtons button').forEach(b=>b.classList.toggle('active',b.dataset.scenario===name));
+  if(name==='custom'){
+    calculate();
+    return;
+  }
+  const p=presets[name];
+  crops.forEach(c=>{
+    document.getElementById(c.adopt).value=p.adopt;
+    document.getElementById(c.mrv).value=p.mrv;
+  });
+  calculate();
+}
+
+document.querySelectorAll('#scenarioButtons button').forEach(b=>b.addEventListener('click',()=>applyPreset(b.dataset.scenario)));
+document.querySelectorAll('input').forEach(el=>el.addEventListener('input',()=>{
+  const id=el.id;
+  if(id==='portfolioArea'){
+    setPortfolioTotal(Number(el.value));
+    return;
+  }
+  if(id==='portfolioExact'){
+    setPortfolioTotal(Number(el.value)||25000);
+    return;
+  }
+  const cropKeys=['rice','corn','cotton','other'];
+  for(const k of cropKeys){
+    if(id===k+'Alloc'){
+      syncAreaFromSlider(k);
+      rebalanceIfNeeded(k);
+      break;
+    }
+    if(id===k+'Area'){
+      syncSliderFromArea(k);
+      rebalanceIfNeeded(k);
+      break;
+    }
+  }
+  if(id.endsWith('Adopt') || id.endsWith('Mrv') || id==='otherFactor'){
+    applyPreset('custom');
+  } else {
+    calculate();
+  }
+}));
+
+document.getElementById('additionality').addEventListener('change',()=>calculate());
+
+function resetDefaults(){
+  document.getElementById('companyName').value='';
+  document.getElementById('projectName').value='';
+  document.getElementById('assessmentYear').value=2026;
+  document.getElementById('portfolioArea').value=25000;
+  document.getElementById('portfolioExact').value=25000;
+  document.getElementById('riceArea').value=10000;
+  document.getElementById('cornArea').value=6000;
+  document.getElementById('cottonArea').value=5000;
+  document.getElementById('otherArea').value=4000;
+  document.getElementById('riceAlloc').value=10000;
+  document.getElementById('cornAlloc').value=6000;
+  document.getElementById('cottonAlloc').value=5000;
+  document.getElementById('otherAlloc').value=4000;
+  document.getElementById('otherFactor').value=1;
+  document.getElementById('additionality').checked=false;
+  applyPreset('full');
+}
+calculate();
 </script>
 </body>
 </html>
