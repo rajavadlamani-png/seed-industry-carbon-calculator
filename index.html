@@ -74,7 +74,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 <div class="container">
 
 <section class="hero">
-  <div class="badge">PUBLIC TEASER • Scenario Model • v1.8</div>
+  <div class="badge">PUBLIC TEASER • Scenario Model • v1.8.1</div>
   <h1>Seed Production Climate & Carbon Potential Calculator</h1>
   <p>Explore the potential annual CO₂e reduction from best-practice adoption across your seed-production portfolio — using your own acreage and crop mix.</p>
   <p style="font-size:12px;opacity:.9">This public teaser is a scenario calculator, not a carbon-credit certification, verification or issuance tool.</p>
@@ -148,7 +148,8 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
         <td><input id="otherAlloc" type="range" min="0" max="25000" step="100" value="4000" aria-label="Other crops allocation"></td>
       </tr>
       <tr>
-        <td colspan="2"><b>Total allocated</b></td>
+        <td><b>Total allocated</b></td>
+        <td id="totalAllocated"><b>30,000 acres</b></td>
         <td id="totalShare"><b>100.0%</b></td>
         <td><span id="allocationStatus" class="status green">Balanced</span></td>
       </tr>
@@ -342,7 +343,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 </section>
 
 <div class="footer">
-  Seed Production Carbon Potential Calculator v1.8 • Area conversion: 1 acre = 0.404685642 ha • Results are annualized model outputs. Carbon-credit issuance is subject to the applicable programme, methodology, project eligibility, baseline, additionality, monitoring, validation/verification and registry decisions.
+  Seed Production Carbon Potential Calculator v1.8.1 • Area conversion: 1 acre = 0.404685642 ha • Results are annualized model outputs. Carbon-credit issuance is subject to the applicable programme, methodology, project eligibility, baseline, additionality, monitoring, validation/verification and registry decisions.
 </div>
 </div>
 
@@ -489,6 +490,7 @@ function calculate(){
   const remaining = total-allocated;
   el('remainingArea').innerHTML = fmt(Math.max(0,remaining))+' <small>acres</small>';
   KEYS.forEach(k=>{ el(k+'Share').textContent = (n(k+'Area')/total*100).toFixed(1)+'%'; });
+  el('totalAllocated').innerHTML = '<b>'+fmt(allocated)+' acres</b>';
   el('totalShare').innerHTML = '<b>'+(allocated/total*100).toFixed(1)+'%</b>';
 
   const balanced = Math.abs(allocated-total)<0.5;
