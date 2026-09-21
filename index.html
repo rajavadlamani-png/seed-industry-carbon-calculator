@@ -6,7 +6,7 @@
 <title>Seed Production Carbon Potential Calculator</title>
 <meta name="description" content="Interactive scenario calculator for carbon-reduction potential across seed-production crop portfolios.">
 <meta property="og:title" content="Seed Production Carbon Potential Calculator">
-<meta property="og:description" content="Model carbon-reduction potential, MRV coverage and methodology-linked credit-equivalent potential across a seed-production portfolio.">
+<meta property="og:description" content="Model carbon-reduction potential, MRV coverage and illustrative rice credit-equivalent potential across a seed-production portfolio.">
 <meta property="og:type" content="website">
 <style>
 :root{
@@ -74,7 +74,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 <div class="container">
 
 <section class="hero">
-  <div class="badge">PUBLIC TEASER • Scenario Model • v1.4</div>
+  <div class="badge">PUBLIC TEASER • Scenario Model • v1.8</div>
   <h1>Seed Production Climate & Carbon Potential Calculator</h1>
   <p>Explore the potential annual CO₂e reduction from best-practice adoption across your seed-production portfolio — using your own acreage and crop mix.</p>
   <p style="font-size:12px;opacity:.9">This public teaser is a scenario calculator, not a carbon-credit certification, verification or issuance tool.</p>
@@ -87,7 +87,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
   <div class="card" style="box-shadow:none;background:#f7fafb;margin-bottom:14px">
     <div class="label">Total seed-production portfolio</div>
     <div class="metric" id="portfolioDisplay">25,000 <small>acres</small></div>
-    <input id="portfolioArea" type="range" min="1000" max="50000" step="500" value="25000" aria-label="Total portfolio acres">
+    <input id="portfolioArea" type="range" min="1000" max="50000" step="100" value="25000" aria-label="Total portfolio acres">
     <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted)">
       <span>1,000 acres</span><span>50,000 acres</span>
     </div>
@@ -181,7 +181,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
   </table>
   </div>
 
-  <div class="warning" style="margin-top:10px"><b>Seed-production feasibility:</b> Eligible/suitable area is a screening input. It represents the share of acreage assumed suitable for the selected intervention. It is not an agronomic certification.</div>
+  <div class="warning" style="margin-top:10px"><b>Seed-production feasibility:</b> Eligible/suitable area is a screening input. It represents the share of acreage assumed suitable for the selected intervention. It is not an agronomic certification. Each selected season/crop cycle should represent a cycle in which the same eligible area and intervention are actually applicable.</div>
 
   <h3>Seasonality, jurisdiction & deductions</h3>
   <div class="grid g3">
@@ -197,12 +197,9 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
     <div><label class="label" for="otherFactor">Other-crop factor (tCO₂e/ha/season)</label>
       <input id="otherFactor" type="number" min="0" max="10" step="0.1" value="0">
       <div class="note">User-defined. Default 0 (no reduction assumed for other crops).</div></div>
-    <div><label class="label" for="creditHaircut">Credit-view haircut: leakage, uncertainty, buffer (%)</label>
-      <input id="creditHaircut" type="number" min="0" max="50" step="1" value="10">
-      <div class="note">Illustrative. Applied only to the rice credit-equivalent view. Set to 0 to remove.</div></div>
   </div>
 
-  <div class="callout" style="margin-top:12px"><b>Calculation:</b> eligible area × (target adoption − baseline adoption) × seasons × reduction factor. MRV coverage and any documented deduction are then applied. The rice credit-equivalent view additionally applies the illustrative haircut and is gated by methodology, jurisdiction and the explicit eligibility/additionality assumption.</div>
+  <div class="callout" style="margin-top:12px"><b>Calculation:</b> eligible area × (target adoption − baseline adoption) × seasons × reduction factor. MRV coverage and any documented deduction are then applied. The rice credit-equivalent view uses the resulting MRV/net range and is gated by methodology context, jurisdiction and the explicit eligibility/additionality assumption. No generic uncertainty, leakage or buffer haircut is applied by this teaser; any such treatment should come from the applicable methodology or documented project parameters.</div>
   <div class="note" style="margin-top:8px">Illustrative screening factors in tCO₂e/ha/season: Rice 1.5–2.5, Corn/Maize 0.5–1.0, Cotton 0.5–1.0; Other crops user-defined. These are not official methodology factors.</div>
 </section>
 
@@ -210,7 +207,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
   <div class="card"><div class="label">Total portfolio</div><div class="metric" id="totalAcres">0 <small>acres</small></div></div>
   <div class="card"><div class="label">Modeled reduction (low–high)</div><div class="metric" id="reduction">0 <small>tCO₂e/yr</small></div></div>
   <div class="card"><div class="label">MRV-covered, net (low–high)</div><div class="metric" id="mrvReduction">0 <small>tCO₂e/yr</small></div></div>
-  <div class="card"><div class="label">Methodology-linked potential (rice)</div><div class="metric" id="creditPotential">— <small>tCO₂e/yr</small></div></div>
+  <div class="card"><div class="label">Illustrative credit-equivalent potential (rice)</div><div class="metric" id="creditPotential">— <small>tCO₂e/yr</small></div></div>
 </div>
 
 <div class="grid main">
@@ -233,7 +230,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
   <h3>Additionality / eligibility assumption</h3>
   <label style="display:flex;gap:9px;align-items:flex-start;font-size:13px">
     <input id="additionality" type="checkbox" style="margin-top:3px">
-    <span>I want to view a <b>scenario-only credit-equivalent</b> number assuming project eligibility and additionality are demonstrated. I understand this is not an issuance forecast.</span>
+    <span>I want to view an <b>illustrative rice credit-equivalent potential</b> assuming project eligibility and additionality are demonstrated. I understand this is not an estimate of credits issued or issuable.</span>
   </label>
 
   <div class="grid g2" style="margin-top:15px">
@@ -250,9 +247,10 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
   </div>
 
   <div id="creditBox" class="card" style="margin-top:12px;background:#f7fafb;box-shadow:none">
-    <div class="label">Potential credit-equivalent volume</div>
+    <div class="label">Illustrative credit-equivalent potential</div>
     <div class="metric" id="creditBoxValue">—</div>
-    <div class="note" id="creditBoxNote">Enable the assumption above to display a scenario-only rice credit-equivalent range.</div>
+    <div class="note" id="creditBoxNote">Enable the assumption above to display an illustrative rice credit-equivalent range.</div>
+    <div class="note" style="margin-top:5px"><b>Not an estimate of credits issued or issuable.</b></div>
   </div>
 </section>
 </div>
@@ -313,12 +311,12 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
     <br><span class="note">Reference: BEE CCTS Offset Mechanism materials and approved methodologies.</span>
   </div>
   <div class="warning" style="margin-top:10px">
-    <b>Baseline & factor disclosure:</b> The baseline practice share, eligible-area share and credit-view haircut are screening inputs; actual baseline, additionality, leakage and uncertainty treatment must follow the applicable methodology.
+    <b>Baseline & factor disclosure:</b> The baseline practice share and eligible-area share are screening inputs; actual baseline, additionality, leakage, uncertainty and buffer treatment must follow the applicable methodology. This teaser applies no generic credit haircut.
     The crop-level reduction factors in this tool are illustrative screening placeholders for scenario analysis. They are not claimed to be official BEE/CCTS factors. For an actual project, replace them with methodology-specific equations, parameters, activity data and project/baseline calculations supported by appropriate evidence.
   </div>
   <div class="warning" style="margin-top:10px">
-    <b>Ownership & double-counting disclosure:</b>
-    In contract-grower seed production, the right to claim or sell reductions depends on agreements between the company and growers. Reductions sold as credits generally cannot also be claimed by the company as insetting or Scope 3 reductions. This tool does not assess ownership or claim rights.
+    <b>Ownership & claim-rights disclosure:</b>
+    In contract-grower seed production, the right to claim, transfer or sell reductions depends on contractual arrangements, the applicable accounting/crediting framework and programme rules. A reduction should not be counted twice across incompatible claims. This tool does not assess ownership, claim-rights or double-counting for any specific project.
   </div>
   <div class="warning" style="margin-top:10px">
     <b>GHG accounting disclosure:</b>
@@ -335,15 +333,16 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
   </div>
 
   <div class="callout" style="margin-top:10px">
-    <b>Public reference sources:</b> Bureau of Energy Efficiency (BEE), CCTS Offset Mechanism and approved methodologies; GHG Protocol, Land Sector and Removals Standard v1.1 and Guidance. Users should consult the latest official publications before relying on any result for a real project.
+    <b>Public reference sources:</b> <a href="https://beeindia.gov.in/view_content.php?lang=1&lid=571" target="_blank" rel="noopener">Bureau of Energy Efficiency (BEE) — Methodologies and Tools under Offset Mechanism</a>; <a href="https://ghgprotocol.org/land-sector-and-removals-standard" target="_blank" rel="noopener">GHG Protocol — Land Sector and Removals Standard</a>; <a href="https://ghgprotocol.org/land-sector-and-removals-guidance" target="_blank" rel="noopener">GHG Protocol — Land Sector and Removals Guidance</a>. Users should consult the latest official publications before relying on any result for a real project.
   </div>
+  <div class="callout" style="margin-top:10px"><b>Data privacy:</b> No data is uploaded or stored by this calculator. Inputs and calculations remain in your browser while you use this standalone page.</div>
   <p class="note" style="margin-top:12px">
     The CCTS framework and approved methodologies can change. Users should check the latest BEE/Indian Carbon Market documents and obtain appropriate technical, legal, accounting and carbon-market advice before relying on the results for a real project.
   </p>
 </section>
 
 <div class="footer">
-  Seed Production Carbon Potential Calculator v1.4 • Area conversion: 1 acre = 0.404685642 ha • Results are annualized model outputs. Carbon-credit issuance is subject to the applicable programme, methodology, project eligibility, baseline, additionality, monitoring, validation/verification and registry decisions.
+  Seed Production Carbon Potential Calculator v1.8 • Area conversion: 1 acre = 0.404685642 ha • Results are annualized model outputs. Carbon-credit issuance is subject to the applicable programme, methodology, project eligibility, baseline, additionality, monitoring, validation/verification and registry decisions.
 </div>
 </div>
 
@@ -511,7 +510,6 @@ function calculate(){
 
   const seasons = Math.min(3, Math.max(1, Math.round(n('seasons')) || 1));
   const deduction = Math.min(50, n('deduction'))/100;
-  const haircut = Math.min(50, n('creditHaircut'))/100;
   const jurisdiction = el('jurisdiction').value;
 
   let low=0, high=0, netLow=0, netHigh=0, riceCreditLow=0, riceCreditHigh=0;
@@ -528,8 +526,8 @@ function calculate(){
     const netL = lowR*mrv*(1-deduction), netH = highR*mrv*(1-deduction);
     low += lowR; high += highR; netLow += netL; netHigh += netH;
     if(c.creditable && jurisdiction==='india'){
-      riceCreditLow  = netL*(1-haircut);
-      riceCreditHigh = netH*(1-haircut);
+      riceCreditLow  = netL;
+      riceCreditHigh = netH;
     }
     rows.push({c, ha, eligibleHa, incrementalHa, lowR, highR, netH});
   });
@@ -537,8 +535,8 @@ function calculate(){
   el('totalAcres').innerHTML = balanced ? fmt(allocated)+' <small>allocated acres</small>' : '— <small>balance portfolio</small>';
   el('reduction').innerHTML = balanced ? fmt(low)+'–'+fmt(high)+' <small>tCO₂e/yr</small>' : '— <small>balance portfolio</small>';
   el('mrvReduction').innerHTML = balanced ? fmt(netLow)+'–'+fmt(netHigh)+' <small>tCO₂e/yr</small>' : '— <small>balance portfolio</small>';
-  el('lowReduction').textContent = fmt(low);
-  el('highReduction').textContent = fmt(high);
+  el('lowReduction').textContent = balanced ? fmt(low) : '—';
+  el('highReduction').textContent = balanced ? fmt(high) : '—';
 
   const add = el('additionality').checked;
   const creditAllowed = add && balanced && jurisdiction==='india';
@@ -547,30 +545,39 @@ function calculate(){
     : '— <small>tCO₂e/yr</small>';
   el('creditBoxValue').textContent = creditAllowed ? fmt(riceCreditLow)+' – '+fmt(riceCreditHigh)+' tCO₂e/yr' : '—';
   el('creditBoxNote').textContent = creditAllowed
-    ? 'Scenario-only rice credit-equivalent range after MRV coverage, the documented deduction and the illustrative '+Math.round(haircut*100)+'% credit-view haircut, assuming eligibility and additionality. Actual issuance can differ.'
+    ? 'Illustrative rice credit-equivalent range after MRV coverage and the documented project-specific deduction, assuming eligibility and additionality. Actual issuance can differ.'
     : (add && jurisdiction!=='india'
         ? 'The rice CCTS pathway in this teaser is restricted to India.'
         : (add && !balanced
-            ? 'Balance the portfolio to display the scenario-only rice credit-equivalent range.'
-            : 'Enable the assumption above (and balance the portfolio) to display the scenario-only rice credit-equivalent range.'));
+            ? 'Balance the portfolio to display the illustrative rice credit-equivalent range.'
+            : 'Enable the assumption above (and balance the portfolio) to display the illustrative rice credit-equivalent range.'));
 
   const company = el('companyName').value.trim();
   const prefix = company ? '<b>'+esc(company)+'</b>: ' : '';
-  el('summaryText').innerHTML = prefix+'The selected portfolio is <b>'+fmt(total)+' acres</b>. The model applies a baseline-adjusted practice gap across <b>'+seasons+' season(s)</b>. The illustrative modeled reduction range is <b>'+fmt(low)+'–'+fmt(high)+' tCO₂e/year</b>.';
+  el('summaryText').innerHTML = balanced
+    ? prefix+'The selected portfolio is <b>'+fmt(total)+' acres</b>. The model applies a baseline-adjusted practice gap across <b>'+seasons+' season(s)</b>. The illustrative modeled reduction range is <b>'+fmt(low)+'–'+fmt(high)+' tCO₂e/year</b>.'
+    : prefix+'Complete the portfolio allocation before interpreting carbon results. The four crop areas must equal the selected portfolio total of <b>'+fmt(total)+' acres</b>.';
 
   const bars = el('bars'); bars.innerHTML = '';
-  const max = Math.max(...rows.map(r=>r.highR), 1);
-  rows.forEach(r=>{
-    const w = document.createElement('div');
-    w.style.margin = '9px 0';
-    w.innerHTML = '<div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><b>'+r.c.name+'</b><span>'+fmt(r.lowR)+'–'+fmt(r.highR)+' tCO₂e</span></div><div class="bar"><i style="width:'+Math.min(100, r.highR/max*100)+'%"></i></div>';
-    bars.appendChild(w);
-  });
+  if(!balanced){
+    bars.innerHTML = '<div class="warning">Complete the portfolio allocation to display crop-level carbon results.</div>';
+  } else {
+    const max = Math.max(...rows.map(r=>r.highR), 1);
+    rows.forEach(r=>{
+      const w = document.createElement('div');
+      w.style.margin = '9px 0';
+      w.innerHTML = '<div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><b>'+r.c.name+'</b><span>'+fmt(r.lowR)+'–'+fmt(r.highR)+' tCO₂e</span></div><div class="bar"><i style="width:'+Math.min(100, r.highR/max*100)+'%"></i></div>';
+      bars.appendChild(w);
+    });
+  }
 
   const tb = el('calcTable'); tb.innerHTML = '';
   rows.forEach(r=>{
     const tr = document.createElement('tr');
-    tr.innerHTML = '<td><b>'+r.c.name+'</b></td><td>'+fmt1(r.ha)+'</td><td>'+fmt1(r.eligibleHa)+'</td><td>'+fmt1(r.incrementalHa)+'</td><td>'+fmt1(r.lowR)+'</td><td>'+fmt1(r.highR)+'</td><td>'+fmt1(r.netH)+'</td>';
+    const values = balanced
+      ? [fmt1(r.ha),fmt1(r.eligibleHa),fmt1(r.incrementalHa),fmt1(r.lowR),fmt1(r.highR),fmt1(r.netH)]
+      : ['—','—','—','—','—','—'];
+    tr.innerHTML = '<td><b>'+r.c.name+'</b></td><td>'+values[0]+'</td><td>'+values[1]+'</td><td>'+values[2]+'</td><td>'+values[3]+'</td><td>'+values[4]+'</td><td>'+values[5]+'</td>';
     tb.appendChild(tr);
   });
 }
@@ -620,7 +627,7 @@ function resetDefaults(){
   const start = {rice:10000, corn:6000, cotton:5000, other:4000};
   KEYS.forEach(k=>{ el(k+'Area').value = start[k]; el(k+'Alloc').value = start[k]; });
   el('seasons').value = 1; el('jurisdiction').value = 'india';
-  el('deduction').value = 0; el('otherFactor').value = 0; el('creditHaircut').value = 10;
+  el('deduction').value = 0; el('otherFactor').value = 0;
   el('additionality').checked = false;
   applyPreset('full');
 }
