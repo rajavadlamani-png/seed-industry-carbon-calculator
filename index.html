@@ -87,6 +87,62 @@ h2{letter-spacing:-.02em}
 @media(max-width:560px){.brandbar{align-items:flex-start}.brand img{width:155px;max-height:46px}.brand-context{display:grid;gap:5px;text-align:right;font-size:9px}.hero-kicker{font-size:9px;letter-spacing:.12em}}
 @media print{.brandbar .brand-context{display:none}.hero{background:#fff!important;color:#173b2c;border:1px solid #ddd}.hero p{color:#445!important}.hero-kicker{color:#8b7542}}
 @media print{.actions,#scenarioButtons{display:none}body{background:#fff}.card,.panel{box-shadow:none}}
+
+/* Sage Harvest Diagnostics-aligned visual system — presentation only */
+:root{
+  --ink:#173b2c;--muted:#68746b;--line:rgba(23,59,44,.12);--bg:#f7f6f0;
+  --card:#fff;--accent:#123b2b;--accent2:#8b7542;--shadow:0 10px 35px rgba(23,59,44,.045);
+}
+body{background:#f7f6f0;color:#173b2c;line-height:1.6}
+.container{max-width:1228px;padding:24px}
+.brandbar{margin:0 auto 12px;max-width:1180px;padding:8px 0 16px;border-bottom:1px solid rgba(23,59,44,.08)}
+.brand img{width:clamp(180px,22vw,230px);max-height:56px}
+.brand-context{font-size:10px;letter-spacing:.14em}
+.hero{
+  display:grid;justify-items:center;text-align:center;align-content:center;
+  min-height:360px;padding:58px 36px 54px;margin:0 0 20px;
+  color:#173b2c;background:radial-gradient(circle at 50% 10%,rgba(201,167,90,.18),transparent 34%);
+  border:0;border-bottom:1px solid rgba(23,59,44,.08);border-radius:0;box-shadow:none;
+}
+.hero:after{display:none}
+.hero-kicker{color:#8b7542;margin-bottom:14px}
+.hero .badge{color:#536259;background:rgba(255,255,255,.72);border:1px solid rgba(23,59,44,.12);margin-bottom:16px}
+.hero h1{max-width:900px;font-size:clamp(2.7rem,6vw,5.2rem);line-height:.98;letter-spacing:-.055em;margin:12px 0 20px;color:#173b2c}
+.hero p{max-width:760px;margin:0 auto 10px;color:#5b685e;font-size:1.08rem;line-height:1.75}
+.hero p:last-child{font-size:.83rem!important;color:#6a766d}
+.panel{border-radius:20px;padding:28px;border-color:rgba(23,59,44,.1);box-shadow:0 10px 35px rgba(23,59,44,.045);margin-top:20px!important}
+.card{border-radius:16px;border-color:rgba(23,59,44,.1);box-shadow:0 10px 35px rgba(23,59,44,.045)}
+.card[style*="background:#f7fafb"]{background:#f3f5ef!important}
+h2{font-size:clamp(1.45rem,2.5vw,1.9rem);letter-spacing:-.035em;margin-bottom:14px}
+h3{font-size:1rem;letter-spacing:-.015em;margin-top:22px}
+.label{letter-spacing:.1em;color:#68756b}
+input[type=number],input[type=text],select{border-color:#dfe5df;border-radius:10px;padding:11px 12px}
+input[type=range]{accent-color:#2f7950}
+button{border-radius:9px;background:#123b2b;box-shadow:0 8px 20px rgba(18,59,43,.1)}
+button.secondary,.scenarios button{background:#fff;color:#173b2c;border:1px solid rgba(23,59,44,.16);box-shadow:none}
+.scenarios button.active{background:#173b2c;color:#fff;border-color:#173b2c}
+.callout{background:#f3f5ef;border-left-color:#8b7542;border-radius:12px;color:#526158}
+.flow span{background:#f3f5ef}
+.bar{background:#e0e5df}
+.bar i{background:#2f7950}
+.footer{color:#758078;border-top:1px solid rgba(23,59,44,.08);padding-top:16px}
+@media(max-width:800px){
+  .container{padding:16px}
+  .hero{min-height:0;padding:46px 20px 40px}
+  .hero h1{font-size:clamp(2.35rem,10vw,3.8rem)}
+  .panel{padding:22px 18px}
+  .brandbar{align-items:center}
+}
+@media(max-width:560px){
+  .container{padding:12px}
+  .brandbar{gap:10px;padding-bottom:12px}
+  .brand img{width:145px;max-height:42px}
+  .brand-context{font-size:8px;gap:6px}
+  .hero{padding:36px 12px 30px}
+  .hero h1{font-size:2.4rem}
+  .hero p{font-size:1rem}
+  .panel{padding:18px 14px}
+}
 </style>
 </head>
 <body>
